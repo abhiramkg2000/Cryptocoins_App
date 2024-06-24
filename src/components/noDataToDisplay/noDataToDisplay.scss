@@ -1,0 +1,12 @@
+.no_data_to_display {
+  &.absolute {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  text-align: center;
+  margin: 2rem 0;
+  font-size: 1.5rem;
+}

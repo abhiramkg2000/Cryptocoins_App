@@ -1,0 +1,36 @@
+@import "../../assets/scss/variables";
+
+.crypto_container {
+  .search_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    .search_coin {
+      font-size: 1rem;
+      width: 30%;
+      height: 40px;
+      border-radius: 30px;
+      padding: 0 15px;
+      border: 2px solid $gray300;
+      color: $gray900;
+      &::placeholder {
+        color: $gray900;
+      }
+      &:focus {
+        outline: none;
+      }
+      @media screen and (max-width: 768px) {
+        width: 40%;
+      }
+    }
+  }
+  .crypto_list_container {
+    margin: 1rem 0;
+  }
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

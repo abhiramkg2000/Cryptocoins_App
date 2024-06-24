@@ -1,0 +1,26 @@
+@import "../../assets/scss/variables";
+
+.crypto_info_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .chart_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    h1 {
+      font-weight: 400;
+      font-size: 2rem;
+    }
+  }
+  .coin_info_container {
+    width: 100%;
+  }
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
