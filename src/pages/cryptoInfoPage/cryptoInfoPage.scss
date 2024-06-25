@@ -13,6 +13,9 @@
       font-weight: 400;
       font-size: 2rem;
     }
+    @media screen and (max-width: 576px) {
+      width: 95%;
+    }
   }
   .coin_info_container {
     width: 100%;

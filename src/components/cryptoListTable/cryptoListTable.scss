@@ -3,7 +3,6 @@
 .crypto_list_table_container {
   display: flex;
   justify-content: center;
-  overflow: hidden !important;
   .crypto_list_table {
     border: 2px solid $gray300;
     width: 90%;
@@ -34,6 +33,9 @@
           }
         }
       }
+    }
+    @media screen and (max-width: 576px) {
+      width: 95%;
     }
   }
   tbody {
