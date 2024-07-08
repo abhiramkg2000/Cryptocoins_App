@@ -31,7 +31,7 @@ export default function CryptoListPage({
       )
       .then((res) => {
         setCoins(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((error) => {
         console.log(error);

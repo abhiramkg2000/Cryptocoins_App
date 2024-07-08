@@ -30,7 +30,7 @@ export default function CryptoInfoPage() {
       )
       .then((res) => {
         setCoinChartInfo(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((error) => {
         console.log(error);
