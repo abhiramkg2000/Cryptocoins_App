@@ -1,23 +1,71 @@
 @import "../../assets/scss/variables";
 
-.crypto_info_container {
+.top-navigation {
+  ul {
+    li {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      .link {
+        color: $white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        background-color: $green500 !important;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.crypto-info-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  .chart_container {
+  .chart-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 80%;
-    h1 {
-      font-weight: 400;
-      font-size: 2rem;
+    .chart-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+      h1 {
+        font-weight: 400;
+        font-size: 2rem;
+        margin: 0 10px;
+      }
+      img {
+        height: 40px;
+        width: 40px;
+        margin: 0 10px;
+      }
     }
     @media screen and (max-width: 576px) {
       width: 95%;
     }
   }
-  .coin_info_container {
+  .coin-date-range-container {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .coin-date-range-button {
+      color: $gray900;
+      border-radius: 20px;
+      border: 2px solid $gray300;
+      margin: 10px;
+      &:hover {
+        background-color: $gray100;
+      }
+    }
+    .active {
+      background-color: $gray100;
+    }
+  }
+  .coin-info-container {
     width: 100%;
   }
   .loader {

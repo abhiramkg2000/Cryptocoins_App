@@ -20,7 +20,7 @@ export default function NotFound() {
   }, []);
 
   return (
-    <div className="not_found">
+    <div className="not-found">
       Page not found, redirecting to home page in {countDown}s
     </div>
   );

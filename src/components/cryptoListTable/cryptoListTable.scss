@@ -1,9 +1,25 @@
 @import "../../assets/scss/variables";
 
-.crypto_list_table_container {
+.pagination {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  ul {
+    flex-direction: column;
+    justify-content: center;
+    height: 50px;
+    li {
+      button {
+        color: $gray900 !important;
+      }
+    }
+  }
+}
+
+.crypto-list-table-container {
   display: flex;
   justify-content: center;
-  .crypto_list_table {
+  .crypto-list-table {
     border: 2px solid $gray300;
     width: 90%;
     border-radius: 15px;
@@ -17,6 +33,7 @@
           padding: 20px 10px;
           border-bottom: 2px solid $gray300;
           .arrowDown {
+            cursor: pointer;
             margin-bottom: -5px;
             transition: 0.2s linear;
           }

@@ -8,7 +8,7 @@ export default function NoDataToDisplay({
   absolute?: boolean;
 }) {
   return (
-    <div className={`no_data_to_display ${absolute ? "absolute" : ""}`}>
+    <div className={`no-data-to-display ${absolute ? "absolute" : ""}`}>
       {text}
     </div>
   );

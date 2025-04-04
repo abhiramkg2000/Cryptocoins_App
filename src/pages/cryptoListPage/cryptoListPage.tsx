@@ -55,21 +55,21 @@ export default function CryptoListPage({
   });
 
   return (
-    <div className="crypto_container">
+    <div className="crypto-container">
       {!loading ? (
         <>
-          <div className="search_container">
+          <div className="search-container">
             <input
               autoFocus
               type="text"
               value={search}
               placeholder="Search"
-              className="search_coin"
+              className="search-coin"
               onChange={handleChange}
             />
           </div>
           {coins?.length ? (
-            <div className="crypto_list_container">
+            <div className="crypto-list-container">
               <CryptoListTable
                 coinsData={filteredCoins}
                 page={page}

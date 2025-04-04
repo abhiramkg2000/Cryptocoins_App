@@ -1,10 +1,10 @@
 @import "../../assets/scss/variables";
 
-.crypto_info_table_container {
+.crypto-info-table-container {
   display: flex;
   justify-content: center;
   margin: 20px 0;
-  .crypto_info_table {
+  .crypto-info-table {
     border: 2px solid $gray300;
     width: 80%;
     border-radius: 15px;

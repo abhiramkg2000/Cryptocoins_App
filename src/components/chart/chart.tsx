@@ -36,7 +36,9 @@ export default function Chart({
             // y-axis data plotting values
             data: prices,
             borderWidth: 3,
-            pointRadius: 5,
+            // pointRadius: 5,
+            pointRadius: 0,
+            tension: 0.1,
             pointBackgroundColor: "#f0f0f2",
             borderColor: "#a1a3ad",
           },
@@ -45,7 +47,28 @@ export default function Chart({
       options={{
         plugins: {
           legend: {
-            onClick: () => null,
+            display: false,
+          },
+          tooltip: {
+            intersect: false,
+            callbacks: {
+              // Customize the tooltip to show price
+              label: (context) => {
+                const price = context.raw; // Price is the y-value (from the 'data' array)
+                return `Price: ₹${price}`;
+              },
+            },
+            enabled: true, // Enable tooltips
+          },
+        },
+        scales: {
+          x: {
+            ticks: {
+              display: false, // Hide x-axis data labels
+            },
+            grid: {
+              display: false, // Hide x-axis gridlines
+            },
           },
         },
       }}

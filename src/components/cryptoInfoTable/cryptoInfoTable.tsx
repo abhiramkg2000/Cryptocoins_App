@@ -5,8 +5,8 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
-import { CryptoCurrencyDataType } from "../../types/common.types";
 import { formatCoinData } from "../../helper/helper";
+import { CryptoCurrencyDataType } from "../../types/common.types";
 
 import "./cryptoInfoTable.scss";
 
@@ -18,8 +18,8 @@ export default function CryptoInfoTable({
   const formatedCoinData = formatCoinData(coinData);
 
   return (
-    <TableContainer className="crypto_info_table_container">
-      <Table size="small" className="crypto_info_table">
+    <TableContainer className="crypto-info-table-container">
+      <Table size="small" className="crypto-info-table">
         <TableHead>
           <TableRow>
             <TableCell>Field</TableCell>

@@ -1,11 +1,11 @@
 @import "../../assets/scss/variables";
 
-.crypto_container {
-  .search_container {
+.crypto-container {
+  .search-container {
     display: flex;
     justify-content: center;
     margin-top: 2rem;
-    .search_coin {
+    .search-coin {
       font-size: 1rem;
       width: 30%;
       height: 40px;
@@ -24,7 +24,7 @@
       }
     }
   }
-  .crypto_list_container {
+  .crypto-list-container {
     margin: 1rem 0;
   }
   .loader {

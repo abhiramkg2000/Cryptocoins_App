@@ -6,11 +6,14 @@ import {
 export const formatCoinData = (
   coinData: CryptoCurrencyDataType
 ): CryptoInfoTableType => {
+  const localDate = new Date(coinData.last_updated!);
+  const formattedDate = localDate.toLocaleString();
+
   return [
     { field: "Name", value: `${coinData.name}` },
     { field: "Symbol", value: `${coinData.symbol}` },
     { field: "Id", value: `${coinData.id}` },
-    { field: "Current Price", value: `${coinData.current_price}` },
+    { field: "Current Price", value: `₹${coinData.current_price}` },
     { field: "Market Cap Rank", value: `${coinData.market_cap_rank}` },
     { field: "Market Cap", value: `${coinData.market_cap}` },
     { field: "Total Volume", value: `${coinData.total_volume}` },
@@ -21,15 +24,15 @@ export const formatCoinData = (
     },
     { field: "Circulating Supply", value: `${coinData.circulating_supply}` },
     { field: "Total Supply", value: `${coinData.total_supply}` },
-    { field: "Last Updated", value: `${coinData.last_updated}` },
+    { field: "Last Updated", value: `${formattedDate}` },
   ];
 };
 
-export const getLastSevenDays = () => {
+export const getLastDays = (days: number) => {
   let dates = [];
   const today = new Date();
 
-  for (let i = 7; i >= 0; i--) {
+  for (let i = days; i >= 0; i--) {
     const date = new Date(
       today.getFullYear(),
       today.getMonth(),

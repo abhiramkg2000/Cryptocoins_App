@@ -29,7 +29,7 @@ export default function CryptoListTable({
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [sortPrice, setSortPrice] = useState(false);
+  // const [sortPrice, setSortPrice] = useState(false);
   const [sortMarketRank, setSortMarketRank] = useState(false);
 
   const navigate = useNavigate();
@@ -49,17 +49,17 @@ export default function CryptoListTable({
     });
   };
 
-  const handlePriceSort = (sort: boolean) => {
-    if (sort) {
-      sortedCoinsData = sortedCoinsData?.sort(
-        (a, b) => b.current_price! - a.current_price!
-      );
-    } else {
-      sortedCoinsData = sortedCoinsData?.sort(
-        (a, b) => a.current_price! - b.current_price!
-      );
-    }
-  };
+  // const handlePriceSort = (sort: boolean) => {
+  //   if (sort) {
+  //     sortedCoinsData = sortedCoinsData?.sort(
+  //       (a, b) => b.current_price! - a.current_price!
+  //     );
+  //   } else {
+  //     sortedCoinsData = sortedCoinsData?.sort(
+  //       (a, b) => a.current_price! - b.current_price!
+  //     );
+  //   }
+  // };
 
   const handleMarketCapRankSort = (sort: boolean) => {
     if (sort) {
@@ -76,33 +76,31 @@ export default function CryptoListTable({
   return (
     <>
       {sortedCoinsData.length ? (
-        <TableContainer className="crypto_list_table_container">
-          <Table size="small" className="crypto_list_table">
+        <TableContainer className="crypto-list-table-container">
+          <Table size="small" className="crypto-list-table">
             <TableHead>
               <TableRow>
-                <TableCell
-                  onClick={() => {
-                    setSortMarketRank((prev) => !prev);
-                    handleMarketCapRankSort(!sortMarketRank);
-                  }}
-                >
+                <TableCell>
                   <ArrowDownwardIcon
                     className={`arrowDown ${sortMarketRank ? "up" : ""}`}
+                    onClick={() => {
+                      setSortMarketRank((prev) => !prev);
+                      handleMarketCapRankSort(!sortMarketRank);
+                    }}
                   />
                   Market Cap Rank
                 </TableCell>
                 <TableCell>Image</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Symbol</TableCell>
-                <TableCell
-                  onClick={() => {
-                    setSortPrice((prev) => !prev);
-                    handlePriceSort(!sortPrice);
-                  }}
-                >
-                  <ArrowDownwardIcon
-                    className={`arrowDown ${sortPrice ? "up" : ""}`}
-                  />
+                <TableCell>
+                  {/* <ArrowDownwardIcon
+                    className={`arrowDown ${sortPrice ? "" : "up"}`}
+                    onClick={() => {
+                      setSortPrice((prev) => !prev);
+                      handlePriceSort(!sortPrice);
+                    }}
+                  /> */}
                   Current Price
                 </TableCell>
               </TableRow>
@@ -113,7 +111,12 @@ export default function CryptoListTable({
                   <TableRow key={coin.id} onClick={() => handleClick(coin)}>
                     <TableCell>{coin.market_cap_rank}</TableCell>
                     <TableCell>
-                      <img src={coin.image!} height={"50px"} width={"50px"} />
+                      <img
+                        src={coin.image!}
+                        height={"50px"}
+                        width={"50px"}
+                        alt="Crypto image"
+                      />
                     </TableCell>
                     <TableCell>{coin.name}</TableCell>
                     <TableCell>{coin.symbol}</TableCell>
@@ -126,9 +129,12 @@ export default function CryptoListTable({
               <TableRow>
                 <TableCell colSpan={5}>
                   <Pagination
+                    className="pagination"
                     count={Math.ceil(coinsData.length / 10)}
                     page={page}
                     onChange={handleChangePage}
+                    showFirstButton={true}
+                    showLastButton={true}
                   />
                 </TableCell>
               </TableRow>
