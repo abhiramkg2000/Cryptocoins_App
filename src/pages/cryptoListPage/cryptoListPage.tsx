@@ -22,6 +22,7 @@ export default function CryptoListPage({
 }) {
   const [coins, setCoins] = useState<CryptoCurrencyListType>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -32,9 +33,11 @@ export default function CryptoListPage({
       .then((res) => {
         setCoins(res.data);
         // console.log(res.data);
+        setError(false);
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       })
       .finally(() => {
         setLoading(false);
@@ -58,24 +61,26 @@ export default function CryptoListPage({
     <div className="crypto-container">
       {!loading ? (
         <>
-          <div className="search-container">
-            <input
-              autoFocus
-              type="text"
-              value={search}
-              placeholder="Search"
-              className="search-coin"
-              onChange={handleChange}
-            />
-          </div>
-          {coins?.length ? (
-            <div className="crypto-list-container">
-              <CryptoListTable
-                coinsData={filteredCoins}
-                page={page}
-                setPage={setPage}
-              />
-            </div>
+          {coins?.length && !error ? (
+            <>
+              <div className="search-container">
+                <input
+                  autoFocus
+                  type="text"
+                  value={search}
+                  placeholder="Search"
+                  className="search-coin"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="crypto-list-container">
+                <CryptoListTable
+                  coinsData={filteredCoins}
+                  page={page}
+                  setPage={setPage}
+                />
+              </div>
+            </>
           ) : (
             <NoDataToDisplay
               text={"Crypto List is unavailable"}

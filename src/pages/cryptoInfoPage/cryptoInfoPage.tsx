@@ -18,6 +18,7 @@ export default function CryptoInfoPage() {
   const [coinChartInfo, setCoinChartInfo] =
     useState<CryptoCurrencyChartInfoType>({});
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [dateRange, setDateRange] = useState(7);
 
   const location = useLocation();
@@ -34,9 +35,11 @@ export default function CryptoInfoPage() {
       .then((res) => {
         setCoinChartInfo(res.data);
         // console.log(res.data);
+        setError(false);
       })
       .catch((error) => {
         console.log(error);
+        setError(true);
       })
       .finally(() => {
         setLoading(false);
@@ -65,51 +68,53 @@ export default function CryptoInfoPage() {
       <div className="crypto-info-container">
         {!loading ? (
           <>
-            {formatedCoinPrices?.length ? (
-              <div className="chart-container">
-                <div className="chart-title">
-                  <h1>{coinData.name}</h1>
-                  <img
-                    src={coinData.image}
-                    height={"40px"}
-                    width={"40px"}
-                    alt="Crypto image"
-                  />
+            {formatedCoinPrices?.length && !error ? (
+              <>
+                <div className="chart-container">
+                  <div className="chart-title">
+                    <h1>{coinData.name}</h1>
+                    <img
+                      src={coinData.image}
+                      height={"40px"}
+                      width={"40px"}
+                      alt="Crypto image"
+                    />
+                  </div>
+                  <Chart dates={dates} prices={formatedCoinPrices!} />
                 </div>
-                <Chart dates={dates} prices={formatedCoinPrices!} />
-              </div>
+                <div className="coin-date-range-container">
+                  <Button
+                    className={`coin-date-range-button ${
+                      dateRange === 7 ? "active" : ""
+                    }`}
+                    disableRipple={true}
+                    onClick={() => handleDateRangeClick(7)}
+                  >
+                    1W
+                  </Button>
+                  <Button
+                    className={`coin-date-range-button ${
+                      dateRange === 30 ? "active" : ""
+                    }`}
+                    disableRipple={true}
+                    onClick={() => handleDateRangeClick(30)}
+                  >
+                    1M
+                  </Button>
+                  <Button
+                    className={`coin-date-range-button ${
+                      dateRange === 365 ? "active" : ""
+                    }`}
+                    disableRipple={true}
+                    onClick={() => handleDateRangeClick(365)}
+                  >
+                    1Y
+                  </Button>
+                </div>
+              </>
             ) : (
               <NoDataToDisplay text={"Crypto Price Chart is unavailable"} />
             )}
-            <div className="coin-date-range-container">
-              <Button
-                className={`coin-date-range-button ${
-                  dateRange === 7 ? "active" : ""
-                }`}
-                disableRipple={true}
-                onClick={() => handleDateRangeClick(7)}
-              >
-                1W
-              </Button>
-              <Button
-                className={`coin-date-range-button ${
-                  dateRange === 30 ? "active" : ""
-                }`}
-                disableRipple={true}
-                onClick={() => handleDateRangeClick(30)}
-              >
-                1M
-              </Button>
-              <Button
-                className={`coin-date-range-button ${
-                  dateRange === 365 ? "active" : ""
-                }`}
-                disableRipple={true}
-                onClick={() => handleDateRangeClick(365)}
-              >
-                1Y
-              </Button>
-            </div>
             {Object.keys(coinData).length ? (
               <div className="coin-info-container">
                 <CryptoInfoTable coinData={coinData} />
