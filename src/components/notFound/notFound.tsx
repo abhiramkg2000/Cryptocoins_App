@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./notFound.scss";
 
 export default function NotFound() {
-  const [countDown, setCountDown] = useState(5);
+  const [countDown, setCountDown] = useState(3);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function NotFound() {
 
     setTimeout(() => {
       navigate("/");
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(timerId);
   }, []);

@@ -13,17 +13,23 @@ export const formatCoinData = (
     { field: "Name", value: `${coinData.name}` },
     { field: "Symbol", value: `${coinData.symbol}` },
     { field: "Id", value: `${coinData.id}` },
-    { field: "Current Price", value: `₹${coinData.current_price}` },
+    { field: "Current Price", value: `$${coinData.current_price?.toFixed(2)}` },
     { field: "Market Cap Rank", value: `${coinData.market_cap_rank}` },
     { field: "Market Cap", value: `${coinData.market_cap}` },
     { field: "Total Volume", value: `${coinData.total_volume}` },
-    { field: "Price Change 24h", value: `${coinData.price_change_24h}` },
+    {
+      field: "Price Change 24h",
+      value: `${coinData.price_change_24h?.toFixed(2)}`,
+    },
     {
       field: "Price Change Percentage 24h",
-      value: `${coinData.price_change_percentage_24h}`,
+      value: `${coinData.price_change_percentage_24h?.toFixed(2)}%`,
     },
-    { field: "Circulating Supply", value: `${coinData.circulating_supply}` },
-    { field: "Total Supply", value: `${coinData.total_supply}` },
+    {
+      field: "Circulating Supply",
+      value: `${coinData.circulating_supply?.toFixed(2)}`,
+    },
+    { field: "Total Supply", value: `${coinData.total_supply?.toFixed(2)}` },
     { field: "Last Updated", value: `${formattedDate}` },
   ];
 };

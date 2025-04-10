@@ -30,7 +30,7 @@ export default function CryptoInfoPage() {
     setLoading(true);
     axios
       .get(
-        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=inr&precision=2&days=${dateRange}&interval=daily`
+        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&precision=2&days=${dateRange}&interval=daily`
       )
       .then((res) => {
         setCoinChartInfo(res.data);
@@ -46,9 +46,8 @@ export default function CryptoInfoPage() {
       });
   }, [coinId, dateRange]);
 
-  const dates = getLastDays(dateRange);
-
   let formatedCoinPrices = formatCoinPrices(coinChartInfo?.prices!);
+  const dates = getLastDays(formatedCoinPrices?.length);
 
   const handleDateRangeClick = (date: number) => {
     setDateRange(date);

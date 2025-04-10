@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import { ScaleLoader } from "react-spinners";
 import axios from "axios";
 
-import CryptoListTable from "../../components/cryptoListTable/cryptoListTable";
+import TrendingListTable from "../../components/trendingListTable/trendingListTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 
-import { CryptoCurrencyListType } from "../../types/common.types";
+import { TrendingCoinList } from "../../types/common.types";
 
-import "./cryptoListPage.scss";
+import "./trendingListPage.scss";
 
-export default function CryptoListPage({
+export default function TrendingListPage({
   page,
   setPage,
   search,
@@ -20,18 +20,16 @@ export default function CryptoListPage({
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  const [coins, setCoins] = useState<CryptoCurrencyListType>([]);
+  const [coins, setCoins] = useState<TrendingCoinList>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-      )
+      .get(`https://api.coingecko.com/api/v3/search/trending`)
       .then((res) => {
-        setCoins(res.data);
+        setCoins(res.data.coins);
         // console.log(res.data);
         setError(false);
       })
@@ -50,8 +48,8 @@ export default function CryptoListPage({
   };
 
   const filteredCoins = coins.filter((coin) => {
-    if (coin.name) {
-      return coin.name.toLowerCase().includes(search.toLowerCase());
+    if (coin.item?.name) {
+      return coin.item.name.toLowerCase().includes(search.toLowerCase());
     } else {
       return coin;
     }
@@ -74,7 +72,7 @@ export default function CryptoListPage({
                 />
               </div>
               <div className="crypto-list-container">
-                <CryptoListTable
+                <TrendingListTable
                   coinsData={filteredCoins}
                   page={page}
                   setPage={setPage}

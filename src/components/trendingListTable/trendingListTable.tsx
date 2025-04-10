@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -14,27 +15,30 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import NoDataToDisplay from "../noDataToDisplay/noDataToDisplay";
 
 import {
-  CryptoCurrencyDataType,
-  CryptoCurrencyListType,
+  // CryptoCurrencyDataType,
+  TrendingCoinResponse,
+  TrendingCoinList,
 } from "../../types/common.types";
 
-import "./cryptoListTable.scss";
+import "./trendingListTable.scss";
 
-export default function CryptoListTable({
+export default function TrendingListTable({
   coinsData,
   page,
   setPage,
 }: {
-  coinsData: CryptoCurrencyListType;
+  coinsData: TrendingCoinList;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 }) {
   // const [sortPrice, setSortPrice] = useState(false);
   const [sortMarketRank, setSortMarketRank] = useState(false);
+  // const [coin,setCoin]=useState<CryptoCurrencyDataType>({});
+  // const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
-  let sortedCoinsData: CryptoCurrencyListType = coinsData;
+  let sortedCoinsData: TrendingCoinList = coinsData;
 
   const handleChangePage = (
     _event: React.ChangeEvent<unknown>,
@@ -43,10 +47,41 @@ export default function CryptoListTable({
     setPage(page);
   };
 
-  const handleClick = (data: CryptoCurrencyDataType) => {
-    navigate(`/details/${data.name?.replace(/ /g, "_").toLowerCase()}`, {
-      state: data,
-    });
+  const handleClick = (data: TrendingCoinResponse) => {
+    // console.log(data.item?.id);
+    axios
+      .get(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${data.item?.id}`
+      )
+      .then((res) => {
+        // setCoins(res.data.coins);
+        // sortedCoinsData = res.data;
+        // console.log(res.data[0]);
+        // setCoin(res.data[0]);
+        // setError(false);
+        navigate(
+          `/details/${data.item?.name?.replace(/ /g, "_").toLowerCase()}`,
+          {
+            state: res.data[0],
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+        // setError(true);
+      })
+      .finally(() => {
+        // setLoading(false);
+      });
+    // if (!error) {
+    // navigate(
+    //   `/details/${data.item?.name?.replace(/ /g, "_").toLowerCase()}`,
+    //   {
+    //     state: sortedCoinsData.find((coin) => coin.item?.id === data.item?.id)
+    //       ?.item,
+    //   }
+    // );
+    // }
   };
 
   // const handlePriceSort = (sort: boolean) => {
@@ -64,11 +99,11 @@ export default function CryptoListTable({
   const handleMarketCapRankSort = (sort: boolean) => {
     if (sort) {
       sortedCoinsData = sortedCoinsData?.sort(
-        (a, b) => b.market_cap_rank! - a.market_cap_rank!
+        (a, b) => b.item?.market_cap_rank! - a.item?.market_cap_rank!
       );
     } else {
       sortedCoinsData = sortedCoinsData?.sort(
-        (a, b) => a.market_cap_rank! - b.market_cap_rank!
+        (a, b) => a.item?.market_cap_rank! - b.item?.market_cap_rank!
       );
     }
   };
@@ -108,19 +143,22 @@ export default function CryptoListTable({
             <TableBody>
               {sortedCoinsData?.slice(page * 10 - 10, page * 10).map((coin) => {
                 return (
-                  <TableRow key={coin.id} onClick={() => handleClick(coin)}>
-                    <TableCell>{coin.market_cap_rank}</TableCell>
+                  <TableRow
+                    key={coin.item?.id}
+                    onClick={() => handleClick(coin)}
+                  >
+                    <TableCell>{coin.item?.market_cap_rank}</TableCell>
                     <TableCell>
                       <img
-                        src={coin.image!}
+                        src={coin.item?.thumb!}
                         height={"50px"}
                         width={"50px"}
                         alt="Crypto image"
                       />
                     </TableCell>
-                    <TableCell>{coin.name}</TableCell>
-                    <TableCell>{coin.symbol}</TableCell>
-                    <TableCell>${coin.current_price?.toFixed(2)}</TableCell>
+                    <TableCell>{coin.item?.name}</TableCell>
+                    <TableCell>{coin.item?.symbol?.toLowerCase()}</TableCell>
+                    <TableCell>${coin.item?.data?.price?.toFixed(2)}</TableCell>
                   </TableRow>
                 );
               })}

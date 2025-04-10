@@ -55,7 +55,7 @@ export default function Chart({
               // Customize the tooltip to show price
               label: (context) => {
                 const price = context.raw; // Price is the y-value (from the 'data' array)
-                return `Price: ₹${price}`;
+                return `Price: $${price}`;
               },
             },
             enabled: true, // Enable tooltips
