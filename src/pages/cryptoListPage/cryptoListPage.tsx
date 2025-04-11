@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { ScaleLoader } from "react-spinners";
 import axios from "axios";
 
+import InputBase from "@mui/material/InputBase";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from "@mui/icons-material/Clear";
+
 import CryptoListTable from "../../components/cryptoListTable/cryptoListTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 
@@ -49,6 +54,10 @@ export default function CryptoListPage({
     setPage(1);
   };
 
+  const handleSearchClear = () => {
+    setSearch("");
+  };
+
   const filteredCoins = coins.filter((coin) => {
     if (coin.name) {
       return coin.name.toLowerCase().includes(search.toLowerCase());
@@ -64,13 +73,23 @@ export default function CryptoListPage({
           {coins?.length && !error ? (
             <>
               <div className="search-container">
-                <input
+                <InputBase
                   autoFocus
                   type="text"
                   value={search}
-                  placeholder="Search"
+                  placeholder="Search a crypto"
                   className="search-coin"
                   onChange={handleChange}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleSearchClear}
+                        sx={{ color: "#44475b" }}
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  }
                 />
               </div>
               <div className="crypto-list-container">

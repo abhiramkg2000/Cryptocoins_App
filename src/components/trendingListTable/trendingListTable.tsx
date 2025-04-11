@@ -14,11 +14,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import NoDataToDisplay from "../noDataToDisplay/noDataToDisplay";
 
-import {
-  // CryptoCurrencyDataType,
-  TrendingCoinResponse,
-  TrendingCoinList,
-} from "../../types/common.types";
+import { TrendingCoin, TrendingCoinList } from "../../types/common.types";
 
 import "./trendingListTable.scss";
 
@@ -33,8 +29,6 @@ export default function TrendingListTable({
 }) {
   // const [sortPrice, setSortPrice] = useState(false);
   const [sortMarketRank, setSortMarketRank] = useState(false);
-  // const [coin,setCoin]=useState<CryptoCurrencyDataType>({});
-  // const [error, setError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -47,41 +41,24 @@ export default function TrendingListTable({
     setPage(page);
   };
 
-  const handleClick = (data: TrendingCoinResponse) => {
-    // console.log(data.item?.id);
+  const handleClick = (coin: TrendingCoin) => {
+    let data = {};
     axios
       .get(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${data.item?.id}`
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coin?.id}`
       )
       .then((res) => {
-        // setCoins(res.data.coins);
-        // sortedCoinsData = res.data;
         // console.log(res.data[0]);
-        // setCoin(res.data[0]);
-        // setError(false);
-        navigate(
-          `/details/${data.item?.name?.replace(/ /g, "_").toLowerCase()}`,
-          {
-            state: res.data[0],
-          }
-        );
+        data = res.data[0];
       })
       .catch((error) => {
         console.log(error);
-        // setError(true);
       })
       .finally(() => {
-        // setLoading(false);
+        navigate(`/details/${coin?.name?.replace(/ /g, "_").toLowerCase()}`, {
+          state: data,
+        });
       });
-    // if (!error) {
-    // navigate(
-    //   `/details/${data.item?.name?.replace(/ /g, "_").toLowerCase()}`,
-    //   {
-    //     state: sortedCoinsData.find((coin) => coin.item?.id === data.item?.id)
-    //       ?.item,
-    //   }
-    // );
-    // }
   };
 
   // const handlePriceSort = (sort: boolean) => {
@@ -145,7 +122,7 @@ export default function TrendingListTable({
                 return (
                   <TableRow
                     key={coin.item?.id}
-                    onClick={() => handleClick(coin)}
+                    onClick={() => handleClick(coin.item!)}
                   >
                     <TableCell>{coin.item?.market_cap_rank}</TableCell>
                     <TableCell>

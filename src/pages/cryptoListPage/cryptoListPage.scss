@@ -10,17 +10,14 @@
       width: 30%;
       height: 40px;
       border-radius: 30px;
-      padding: 0 15px;
+      padding: 25px 15px;
       border: 2px solid $gray300;
       color: $gray900;
-      &::placeholder {
-        color: $gray900;
-      }
-      &:focus {
-        outline: none;
-      }
       @media screen and (max-width: 768px) {
         width: 40%;
+      }
+      @media screen and (max-width: 500px) {
+        width: 60%;
       }
     }
   }

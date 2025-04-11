@@ -19,7 +19,7 @@ export const formatCoinData = (
     { field: "Total Volume", value: `${coinData.total_volume}` },
     {
       field: "Price Change 24h",
-      value: `${coinData.price_change_24h?.toFixed(2)}`,
+      value: `$${coinData.price_change_24h?.toFixed(2)}`,
     },
     {
       field: "Price Change Percentage 24h",

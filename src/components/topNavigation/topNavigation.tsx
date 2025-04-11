@@ -25,16 +25,20 @@ export default function TopNavigation() {
     <>
       <Box sx={{ marginTop: "2rem" }}>
         <Tabs value={value} onChange={handleChange} centered>
-          <Tab label="All" value={"all"} sx={{ textTransform: "none" }} />
+          <Tab
+            label="All"
+            value={"all"}
+            sx={{ textTransform: "none", fontSize: "1rem" }}
+          />
           <Tab
             label="Trending"
             value={"trending"}
-            sx={{ textTransform: "none" }}
+            sx={{ textTransform: "none", fontSize: "1rem" }}
           />
           <Tab
             label="Watchlist"
             value={"watchlist"}
-            sx={{ textTransform: "none" }}
+            sx={{ textTransform: "none", fontSize: "1rem" }}
           />
         </Tabs>
       </Box>
