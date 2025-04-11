@@ -51,7 +51,7 @@ export type CryptoInfoType = {
 export type CryptoInfoTableType = CryptoInfoType[];
 
 // Trending Crypto List table types
-export type PriceChangePercentage24h = {
+export type PriceChangePercentage24hType = {
   aed?: number | null;
   ars?: number | null;
   aud?: number | null;
@@ -116,10 +116,10 @@ export type PriceChangePercentage24h = {
   sats?: number | null;
 };
 
-export type TrendingCoinData = {
+export type TrendingCryptoCurrencyDataType = {
   price?: number | null;
   price_btc?: string | null;
-  price_change_percentage_24h?: PriceChangePercentage24h | null;
+  price_change_percentage_24h?: PriceChangePercentage24hType | null;
   market_cap?: string | null;
   market_cap_btc?: string | null;
   total_volume?: string | null;
@@ -128,7 +128,7 @@ export type TrendingCoinData = {
   content?: string | null;
 };
 
-export type TrendingCoin = {
+export type TrendingCryptoCurrencyType = {
   id?: string | null;
   coin_id?: number | null;
   name?: string | null;
@@ -140,11 +140,12 @@ export type TrendingCoin = {
   slug?: string | null;
   price_btc?: number | null;
   score?: number | null;
-  data?: TrendingCoinData | null;
+  data?: TrendingCryptoCurrencyDataType | null;
 };
 
-export type TrendingCoinResponse = {
-  item: TrendingCoin | null;
+export type TrendingCryptoCurrencyResponseType = {
+  item: TrendingCryptoCurrencyType | null;
 };
 
-export type TrendingCoinList = TrendingCoinResponse[];
+export type TrendingCryptoCurrencyListType =
+  TrendingCryptoCurrencyResponseType[];

@@ -14,7 +14,10 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import NoDataToDisplay from "../noDataToDisplay/noDataToDisplay";
 
-import { TrendingCoin, TrendingCoinList } from "../../types/common.types";
+import {
+  TrendingCryptoCurrencyType,
+  TrendingCryptoCurrencyListType,
+} from "../../types/common.types";
 
 import "./trendingListTable.scss";
 
@@ -23,7 +26,7 @@ export default function TrendingListTable({
   page,
   setPage,
 }: {
-  coinsData: TrendingCoinList;
+  coinsData: TrendingCryptoCurrencyListType;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 }) {
@@ -32,7 +35,7 @@ export default function TrendingListTable({
 
   const navigate = useNavigate();
 
-  let sortedCoinsData: TrendingCoinList = coinsData;
+  let sortedCoinsData: TrendingCryptoCurrencyListType = coinsData;
 
   const handleChangePage = (
     _event: React.ChangeEvent<unknown>,
@@ -41,7 +44,7 @@ export default function TrendingListTable({
     setPage(page);
   };
 
-  const handleClick = (coin: TrendingCoin) => {
+  const handleClick = (coin: TrendingCryptoCurrencyType) => {
     let data = {};
     axios
       .get(
@@ -88,8 +91,8 @@ export default function TrendingListTable({
   return (
     <>
       {sortedCoinsData.length ? (
-        <TableContainer className="crypto-list-table-container">
-          <Table size="small" className="crypto-list-table">
+        <TableContainer className="trending-crypto-list-table-container">
+          <Table size="small" className="trending-crypto-list-table">
             <TableHead>
               <TableRow>
                 <TableCell>

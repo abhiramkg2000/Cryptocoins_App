@@ -10,7 +10,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import TrendingListTable from "../../components/trendingListTable/trendingListTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 
-import { TrendingCoinList } from "../../types/common.types";
+import { TrendingCryptoCurrencyListType } from "../../types/common.types";
 
 import "./trendingListPage.scss";
 
@@ -25,7 +25,7 @@ export default function TrendingListPage({
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  const [coins, setCoins] = useState<TrendingCoinList>([]);
+  const [coins, setCoins] = useState<TrendingCryptoCurrencyListType>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -65,18 +65,18 @@ export default function TrendingListPage({
   });
 
   return (
-    <div className="crypto-container">
+    <div className="trending-crypto-container">
       {!loading ? (
         <>
           {coins?.length && !error ? (
             <>
-              <div className="search-container">
+              <div className="trending-search-container">
                 <InputBase
                   autoFocus
                   type="text"
                   value={search}
                   placeholder="Search a crypto"
-                  className="search-coin"
+                  className="trending-search-coin"
                   onChange={handleChange}
                   endAdornment={
                     <InputAdornment position="end">
@@ -90,7 +90,7 @@ export default function TrendingListPage({
                   }
                 />
               </div>
-              <div className="crypto-list-container">
+              <div className="trending-crypto-list-container">
                 <TrendingListTable
                   coinsData={filteredCoins}
                   page={page}
