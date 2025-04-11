@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { ScaleLoader } from "react-spinners";
 import axios from "axios";
 
 import InputBase from "@mui/material/InputBase";
@@ -9,6 +8,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 import CryptoListTable from "../../components/cryptoListTable/cryptoListTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
+import Loader from "../../components/loader/loader";
 
 import { CryptoCurrencyListType } from "../../types/common.types";
 
@@ -108,9 +108,7 @@ export default function CryptoListPage({
           )}
         </>
       ) : (
-        <div className="loader">
-          <ScaleLoader loading color="#44475b" />
-        </div>
+        <Loader />
       )}
     </div>
   );

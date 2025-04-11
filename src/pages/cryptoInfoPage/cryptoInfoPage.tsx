@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { ScaleLoader } from "react-spinners";
 import axios from "axios";
 
 import Button from "@mui/material/Button";
@@ -8,6 +7,7 @@ import Button from "@mui/material/Button";
 import Chart from "../../components/chart/chart";
 import CryptoInfoTable from "../../components/cryptoInfoTable/cryptoInfoTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
+import Loader from "../../components/loader/loader";
 
 import { getLastDays, formatCoinPrices } from "../../helper/helper";
 import { CryptoCurrencyChartInfoType } from "../../types/common.types";
@@ -123,9 +123,7 @@ export default function CryptoInfoPage() {
             )}
           </>
         ) : (
-          <div className="loader">
-            <ScaleLoader loading color="#44475b" />
-          </div>
+          <Loader />
         )}
       </div>
     </>
