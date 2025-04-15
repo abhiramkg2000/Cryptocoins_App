@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Button from "@mui/material/Button";
@@ -22,6 +22,7 @@ export default function CryptoInfoPage() {
   const [dateRange, setDateRange] = useState(7);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const coinData = location.state || {};
   const coinId = coinData.id ? coinData.id : "";
@@ -55,14 +56,10 @@ export default function CryptoInfoPage() {
 
   return (
     <>
-      <nav className="top-navigation">
-        <ul>
-          <li>
-            <Link to="/" className="link">
-              Home
-            </Link>
-          </li>
-        </ul>
+      <nav className="navigation">
+        <button className="back-button" onClick={() => navigate(-1)}>
+          Back
+        </button>
       </nav>
       <div className="crypto-info-container">
         {!loading ? (

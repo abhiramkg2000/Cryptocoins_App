@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import TableContainer from "@mui/material/TableContainer";
@@ -13,6 +12,12 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import NoDataToDisplay from "../noDataToDisplay/noDataToDisplay";
 
+import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
+import {
+  sortMarketCapRank,
+  updatePage,
+} from "../../state/slice/cryptoListSlice";
+
 import {
   CryptoCurrencyDataType,
   CryptoCurrencyListType,
@@ -22,17 +27,16 @@ import "./cryptoListTable.scss";
 
 export default function CryptoListTable({
   coinsData,
-  page,
-  setPage,
 }: {
   coinsData: CryptoCurrencyListType;
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  // const [sortPrice, setSortPrice] = useState(false);
-  const [sortMarketRank, setSortMarketRank] = useState(false);
+  const currentPage = useAppSelector((state) => state.listPage.currentPage);
+  const marketCapRankSort = useAppSelector(
+    (state) => state.listPage.marketCapRankSort
+  );
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   let sortedCoinsData: CryptoCurrencyListType = coinsData;
 
@@ -40,7 +44,7 @@ export default function CryptoListTable({
     _event: React.ChangeEvent<unknown>,
     page: number
   ) => {
-    setPage(page);
+    dispatch(updatePage(page));
   };
 
   const handleClick = (data: CryptoCurrencyDataType) => {
@@ -73,6 +77,8 @@ export default function CryptoListTable({
     }
   };
 
+  handleMarketCapRankSort(marketCapRankSort);
+
   return (
     <>
       {sortedCoinsData.length ? (
@@ -82,10 +88,10 @@ export default function CryptoListTable({
               <TableRow>
                 <TableCell>
                   <ArrowDownwardIcon
-                    className={`arrowDown ${sortMarketRank ? "up" : ""}`}
+                    className={`arrowDown ${marketCapRankSort ? "up" : ""}`}
                     onClick={() => {
-                      setSortMarketRank((prev) => !prev);
-                      handleMarketCapRankSort(!sortMarketRank);
+                      dispatch(sortMarketCapRank(!marketCapRankSort));
+                      handleMarketCapRankSort(!marketCapRankSort);
                     }}
                   />
                   Market Cap Rank
@@ -106,24 +112,26 @@ export default function CryptoListTable({
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedCoinsData?.slice(page * 10 - 10, page * 10).map((coin) => {
-                return (
-                  <TableRow key={coin.id} onClick={() => handleClick(coin)}>
-                    <TableCell>{coin.market_cap_rank}</TableCell>
-                    <TableCell>
-                      <img
-                        src={coin.image!}
-                        height={"50px"}
-                        width={"50px"}
-                        alt="Crypto image"
-                      />
-                    </TableCell>
-                    <TableCell>{coin.name}</TableCell>
-                    <TableCell>{coin.symbol}</TableCell>
-                    <TableCell>${coin.current_price?.toFixed(2)}</TableCell>
-                  </TableRow>
-                );
-              })}
+              {sortedCoinsData
+                ?.slice(currentPage * 10 - 10, currentPage * 10)
+                .map((coin) => {
+                  return (
+                    <TableRow key={coin.id} onClick={() => handleClick(coin)}>
+                      <TableCell>{coin.market_cap_rank}</TableCell>
+                      <TableCell>
+                        <img
+                          src={coin.image!}
+                          height={"50px"}
+                          width={"50px"}
+                          alt="Crypto image"
+                        />
+                      </TableCell>
+                      <TableCell>{coin.name}</TableCell>
+                      <TableCell>{coin.symbol}</TableCell>
+                      <TableCell>${coin.current_price?.toFixed(2)}</TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -131,7 +139,7 @@ export default function CryptoListTable({
                   <Pagination
                     className="pagination"
                     count={Math.ceil(coinsData.length / 10)}
-                    page={page}
+                    page={currentPage}
                     onChange={handleChangePage}
                     showFirstButton={true}
                     showLastButton={true}

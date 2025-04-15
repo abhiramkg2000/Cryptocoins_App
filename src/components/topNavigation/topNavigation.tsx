@@ -1,14 +1,17 @@
-import { useState } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
+import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
+import { updateTopNavigation } from "../../state/slice/topNavigationSlice";
+
 export default function TopNavigation() {
-  const [value, setValue] = useState("all");
+  const value = useAppSelector((state) => state.topNavigation.value);
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
     if (newValue === "trending") {
@@ -18,7 +21,7 @@ export default function TopNavigation() {
     } else {
       navigate("/watchlist");
     }
-    setValue(newValue);
+    dispatch(updateTopNavigation(newValue));
   };
 
   return (

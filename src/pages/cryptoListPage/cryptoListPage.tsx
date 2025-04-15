@@ -10,24 +10,23 @@ import CryptoListTable from "../../components/cryptoListTable/cryptoListTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 import Loader from "../../components/loader/loader";
 
-import { CryptoCurrencyListType } from "../../types/common.types";
+import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
+import {
+  coinSearch,
+  updateCryptoList,
+  updatePage,
+} from "../../state/slice/cryptoListSlice";
 
 import "./cryptoListPage.scss";
 
-export default function CryptoListPage({
-  page,
-  setPage,
-  search,
-  setSearch,
-}: {
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-}) {
-  const [coins, setCoins] = useState<CryptoCurrencyListType>([]);
+export default function CryptoListPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  const coins = useAppSelector((state) => state.listPage.list);
+  const searchCoin = useAppSelector((state) => state.listPage.searchCoin);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setLoading(true);
@@ -36,7 +35,7 @@ export default function CryptoListPage({
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`
       )
       .then((res) => {
-        setCoins(res.data);
+        dispatch(updateCryptoList(res.data));
         // console.log(res.data);
         setError(false);
       })
@@ -49,18 +48,18 @@ export default function CryptoListPage({
       });
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setPage(1);
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(coinSearch(e.target.value));
+    dispatch(updatePage(1));
   };
 
   const handleSearchClear = () => {
-    setSearch("");
+    dispatch(coinSearch(""));
   };
 
   const filteredCoins = coins.filter((coin) => {
     if (coin.name) {
-      return coin.name.toLowerCase().includes(search.toLowerCase());
+      return coin.name.toLowerCase().includes(searchCoin.toLowerCase());
     } else {
       return coin;
     }
@@ -76,10 +75,10 @@ export default function CryptoListPage({
                 <InputBase
                   autoFocus
                   type="text"
-                  value={search}
+                  value={searchCoin}
                   placeholder="Search a crypto"
                   className="search-coin"
-                  onChange={handleChange}
+                  onChange={handleSearch}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -93,11 +92,7 @@ export default function CryptoListPage({
                 />
               </div>
               <div className="crypto-list-container">
-                <CryptoListTable
-                  coinsData={filteredCoins}
-                  page={page}
-                  setPage={setPage}
-                />
+                <CryptoListTable coinsData={filteredCoins} />
               </div>
             </>
           ) : (

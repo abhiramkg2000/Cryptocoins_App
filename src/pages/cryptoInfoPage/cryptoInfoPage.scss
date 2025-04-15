@@ -1,19 +1,17 @@
 @import "../../assets/scss/variables";
 
-.top-navigation {
-  ul {
-    li {
-      margin-top: 1rem;
-      display: flex;
-      justify-content: center;
-      .link {
-        color: $white;
-        padding: 10px 20px;
-        border-radius: 20px;
-        background-color: $green500 !important;
-        text-decoration: none;
-      }
-    }
+.navigation {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  .back-button {
+    cursor: pointer;
+    color: $white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: $green500 !important;
+    border: none;
+    font-size: 1rem;
   }
 }
 

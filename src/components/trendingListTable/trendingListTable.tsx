@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,9 +9,12 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableFooter from "@mui/material/TableFooter";
 import Pagination from "@mui/material/Pagination";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+// import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import NoDataToDisplay from "../noDataToDisplay/noDataToDisplay";
+
+import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
+import { updateTrendingPage } from "../../state/slice/trendingListSlice";
 
 import {
   TrendingCryptoCurrencyType,
@@ -23,17 +25,16 @@ import "./trendingListTable.scss";
 
 export default function TrendingListTable({
   coinsData,
-  page,
-  setPage,
 }: {
   coinsData: TrendingCryptoCurrencyListType;
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  // const [sortPrice, setSortPrice] = useState(false);
-  const [sortMarketRank, setSortMarketRank] = useState(false);
+  const currentPage = useAppSelector((state) => state.trendingPage.currentPage);
+  // const marketCapRankSort = useAppSelector(
+  //   (state) => state.listPage.marketCapRankSort
+  // );
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   let sortedCoinsData: TrendingCryptoCurrencyListType = coinsData;
 
@@ -41,7 +42,7 @@ export default function TrendingListTable({
     _event: React.ChangeEvent<unknown>,
     page: number
   ) => {
-    setPage(page);
+    dispatch(updateTrendingPage(page));
   };
 
   const handleClick = (coin: TrendingCryptoCurrencyType) => {
@@ -76,17 +77,17 @@ export default function TrendingListTable({
   //   }
   // };
 
-  const handleMarketCapRankSort = (sort: boolean) => {
-    if (sort) {
-      sortedCoinsData = sortedCoinsData?.sort(
-        (a, b) => b.item?.market_cap_rank! - a.item?.market_cap_rank!
-      );
-    } else {
-      sortedCoinsData = sortedCoinsData?.sort(
-        (a, b) => a.item?.market_cap_rank! - b.item?.market_cap_rank!
-      );
-    }
-  };
+  // const handleMarketCapRankSort = (sort: boolean) => {
+  //   if (sort) {
+  //     sortedCoinsData = sortedCoinsData?.sort(
+  //       (a, b) => b.item?.market_cap_rank! - a.item?.market_cap_rank!
+  //     );
+  //   } else {
+  //     sortedCoinsData = sortedCoinsData?.sort(
+  //       (a, b) => a.item?.market_cap_rank! - b.item?.market_cap_rank!
+  //     );
+  //   }
+  // };
 
   return (
     <>
@@ -96,13 +97,13 @@ export default function TrendingListTable({
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <ArrowDownwardIcon
+                  {/* <ArrowDownwardIcon
                     className={`arrowDown ${sortMarketRank ? "up" : ""}`}
                     onClick={() => {
                       setSortMarketRank((prev) => !prev);
                       handleMarketCapRankSort(!sortMarketRank);
                     }}
-                  />
+                  /> */}
                   Market Cap Rank
                 </TableCell>
                 <TableCell>Image</TableCell>
@@ -121,27 +122,31 @@ export default function TrendingListTable({
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedCoinsData?.slice(page * 10 - 10, page * 10).map((coin) => {
-                return (
-                  <TableRow
-                    key={coin.item?.id}
-                    onClick={() => handleClick(coin.item!)}
-                  >
-                    <TableCell>{coin.item?.market_cap_rank}</TableCell>
-                    <TableCell>
-                      <img
-                        src={coin.item?.thumb!}
-                        height={"50px"}
-                        width={"50px"}
-                        alt="Crypto image"
-                      />
-                    </TableCell>
-                    <TableCell>{coin.item?.name}</TableCell>
-                    <TableCell>{coin.item?.symbol?.toLowerCase()}</TableCell>
-                    <TableCell>${coin.item?.data?.price?.toFixed(2)}</TableCell>
-                  </TableRow>
-                );
-              })}
+              {sortedCoinsData
+                ?.slice(currentPage * 10 - 10, currentPage * 10)
+                .map((coin) => {
+                  return (
+                    <TableRow
+                      key={coin.item?.id}
+                      onClick={() => handleClick(coin.item!)}
+                    >
+                      <TableCell>{coin.item?.market_cap_rank}</TableCell>
+                      <TableCell>
+                        <img
+                          src={coin.item?.thumb!}
+                          height={"50px"}
+                          width={"50px"}
+                          alt="Crypto image"
+                        />
+                      </TableCell>
+                      <TableCell>{coin.item?.name}</TableCell>
+                      <TableCell>{coin.item?.symbol?.toLowerCase()}</TableCell>
+                      <TableCell>
+                        ${coin.item?.data?.price?.toFixed(2)}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -149,7 +154,7 @@ export default function TrendingListTable({
                   <Pagination
                     className="pagination"
                     count={Math.ceil(coinsData.length / 10)}
-                    page={page}
+                    page={currentPage}
                     onChange={handleChangePage}
                     showFirstButton={true}
                     showLastButton={true}

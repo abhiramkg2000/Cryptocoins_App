@@ -10,31 +10,32 @@ import TrendingListTable from "../../components/trendingListTable/trendingListTa
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 import Loader from "../../components/loader/loader";
 
-import { TrendingCryptoCurrencyListType } from "../../types/common.types";
+import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
+import {
+  trendingCoinSearch,
+  updateTrendingCryptoList,
+  updateTrendingPage,
+} from "../../state/slice/trendingListSlice";
+import { updateTopNavigation } from "../../state/slice/topNavigationSlice";
 
 import "./trendingListPage.scss";
 
-export default function TrendingListPage({
-  page,
-  setPage,
-  search,
-  setSearch,
-}: {
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-}) {
-  const [coins, setCoins] = useState<TrendingCryptoCurrencyListType>([]);
+export default function TrendingListPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const coins = useAppSelector((state) => state.trendingPage.list);
+  const searchCoin = useAppSelector((state) => state.trendingPage.searchCoin);
+
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
+    dispatch(updateTopNavigation("trending"));
     setLoading(true);
     axios
       .get(`https://api.coingecko.com/api/v3/search/trending`)
       .then((res) => {
-        setCoins(res.data.coins);
+        dispatch(updateTrendingCryptoList(res.data.coins));
         // console.log(res.data);
         setError(false);
       })
@@ -47,18 +48,18 @@ export default function TrendingListPage({
       });
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setPage(1);
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(trendingCoinSearch(e.target.value));
+    dispatch(updateTrendingPage(1));
   };
 
   const handleSearchClear = () => {
-    setSearch("");
+    dispatch(trendingCoinSearch(""));
   };
 
   const filteredCoins = coins.filter((coin) => {
     if (coin.item?.name) {
-      return coin.item.name.toLowerCase().includes(search.toLowerCase());
+      return coin.item.name.toLowerCase().includes(searchCoin.toLowerCase());
     } else {
       return coin;
     }
@@ -74,10 +75,10 @@ export default function TrendingListPage({
                 <InputBase
                   autoFocus
                   type="text"
-                  value={search}
+                  value={searchCoin}
                   placeholder="Search a crypto"
                   className="trending-search-coin"
-                  onChange={handleChange}
+                  onChange={handleSearch}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -91,11 +92,7 @@ export default function TrendingListPage({
                 />
               </div>
               <div className="trending-crypto-list-container">
-                <TrendingListTable
-                  coinsData={filteredCoins}
-                  page={page}
-                  setPage={setPage}
-                />
+                <TrendingListTable coinsData={filteredCoins} />
               </div>
             </>
           ) : (
