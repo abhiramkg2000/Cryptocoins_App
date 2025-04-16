@@ -1,6 +1,7 @@
 import {
   CryptoCurrencyDataType,
   CryptoInfoTableType,
+  WatchlistCryptoCurrencyType,
 } from "../types/common.types";
 
 export const formatCoinData = (
@@ -52,4 +53,16 @@ export const getLastDays = (days: number) => {
 
 export const formatCoinPrices = (prices: number[][]) => {
   return prices?.map((item) => item[1]);
+};
+
+export const getBookmark = (
+  watchlistCoins: WatchlistCryptoCurrencyType[],
+  coinId: string
+) => {
+  const getCoin = watchlistCoins.find((coin) => coin.id === coinId);
+  if (getCoin) {
+    return getCoin.bookmark;
+  } else {
+    return false;
+  }
 };

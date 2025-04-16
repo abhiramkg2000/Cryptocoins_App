@@ -7,6 +7,8 @@ import Tab from "@mui/material/Tab";
 import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
 import { updateTopNavigation } from "../../state/slice/topNavigationSlice";
 
+import "./topNavigation.scss";
+
 export default function TopNavigation() {
   const value = useAppSelector((state) => state.topNavigation.value);
 
@@ -26,22 +28,22 @@ export default function TopNavigation() {
 
   return (
     <>
-      <Box sx={{ marginTop: "2rem" }}>
+      <Box className="top-navigation">
         <Tabs value={value} onChange={handleChange} centered>
           <Tab
             label="All"
             value={"all"}
-            sx={{ textTransform: "none", fontSize: "1rem" }}
+            className={`tab ${value === "all" ? "active" : ""}`}
           />
           <Tab
             label="Trending"
             value={"trending"}
-            sx={{ textTransform: "none", fontSize: "1rem" }}
+            className={`tab ${value === "trending" ? "active" : ""}`}
           />
           <Tab
             label="Watchlist"
             value={"watchlist"}
-            sx={{ textTransform: "none", fontSize: "1rem" }}
+            className={`tab ${value === "watchlist" ? "active" : ""}`}
           />
         </Tabs>
       </Box>

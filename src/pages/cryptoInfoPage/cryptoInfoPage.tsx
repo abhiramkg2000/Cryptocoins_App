@@ -3,13 +3,27 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Button from "@mui/material/Button";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 import Chart from "../../components/chart/chart";
 import CryptoInfoTable from "../../components/cryptoInfoTable/cryptoInfoTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 import Loader from "../../components/loader/loader";
+import SnackBar from "../../components/snackbar/snackbar";
 
-import { getLastDays, formatCoinPrices } from "../../helper/helper";
+import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
+import {
+  addToWatchlist,
+  deleteFromWatchlist,
+} from "../../state/slice/watchlistSlice";
+
+import {
+  getLastDays,
+  formatCoinPrices,
+  getBookmark,
+} from "../../helper/helper";
+
 import { CryptoCurrencyChartInfoType } from "../../types/common.types";
 
 import "./cryptoInfoPage.scss";
@@ -20,12 +34,21 @@ export default function CryptoInfoPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [dateRange, setDateRange] = useState(7);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const watchlistCoins = useAppSelector((state) => state.watchlistPage.list);
 
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const coinData = location.state || {};
   const coinId = coinData.id ? coinData.id : "";
+
+  const [bookmark, setBookmark] = useState(() =>
+    getBookmark(watchlistCoins, coinId)
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -54,6 +77,10 @@ export default function CryptoInfoPage() {
     setDateRange(date);
   };
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   return (
     <>
       <nav className="navigation">
@@ -68,6 +95,36 @@ export default function CryptoInfoPage() {
               <>
                 <div className="chart-container">
                   <div className="chart-title">
+                    {bookmark ? (
+                      <BookmarkIcon
+                        sx={{ fontSize: "2.5rem", cursor: "pointer" }}
+                        onClick={() => {
+                          setBookmark(false);
+                          dispatch(deleteFromWatchlist(coinData));
+                          setSnackbarMessage(
+                            `${coinData.name} removed from watchlist`
+                          );
+                          setSnackbarOpen(true);
+                        }}
+                      />
+                    ) : (
+                      <BookmarkBorderIcon
+                        sx={{ fontSize: "2.5rem", cursor: "pointer" }}
+                        onClick={() => {
+                          setBookmark(true);
+                          dispatch(
+                            addToWatchlist({
+                              coinData: coinData,
+                              bookmark: true,
+                            })
+                          );
+                          setSnackbarMessage(
+                            `${coinData.name} added to watchlist`
+                          );
+                          setSnackbarOpen(true);
+                        }}
+                      />
+                    )}
                     <h1>{coinData.name}</h1>
                     <img
                       src={coinData.image}
@@ -123,6 +180,11 @@ export default function CryptoInfoPage() {
           <Loader />
         )}
       </div>
+      <SnackBar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        handleClose={handleSnackbarClose}
+      />
     </>
   );
 }

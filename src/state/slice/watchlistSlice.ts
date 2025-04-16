@@ -3,14 +3,15 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 import {
   CryptoCurrencyDataType,
-  TrendingCryptoCurrencyType,
+  WatchlistCryptoCurrencyType,
 } from "../../types/common.types";
 
 // Define a type for the slice state
 interface WatchlistSliceType {
-  list: (CryptoCurrencyDataType | TrendingCryptoCurrencyType)[];
+  list: WatchlistCryptoCurrencyType[];
   currentPage: number;
   searchCoin: string;
+  // marketCapRankSort: boolean;
 }
 
 // Define the initial state using that type
@@ -18,6 +19,7 @@ const initialState: WatchlistSliceType = {
   list: [],
   currentPage: 1,
   searchCoin: "",
+  // marketCapRankSort: false,
 };
 
 const watchlistSlice = createSlice({
@@ -25,12 +27,28 @@ const watchlistSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    updateWatchlist: (
+    addToWatchlist: (
       state,
-      action: PayloadAction<CryptoCurrencyDataType | TrendingCryptoCurrencyType>
+      action: PayloadAction<{
+        coinData: CryptoCurrencyDataType;
+        bookmark: boolean;
+      }>
     ) => {
-      state.list = [...state.list, action.payload];
+      const newCoin = {
+        ...action.payload.coinData,
+        bookmark: action.payload.bookmark,
+      };
+      state.list = [...state.list, newCoin];
     },
+    deleteFromWatchlist: (
+      state,
+      action: PayloadAction<CryptoCurrencyDataType>
+    ) => {
+      state.list = state.list.filter((coin) => coin.id !== action.payload.id);
+    },
+    // watchlistSortMarketCapRank: (state, action: PayloadAction<boolean>) => {
+    //   state.marketCapRankSort = action.payload;
+    // },
     updateWatchlistPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
@@ -40,7 +58,12 @@ const watchlistSlice = createSlice({
   },
 });
 
-export const { updateWatchlist, updateWatchlistPage, watchlistCoinSearch } =
-  watchlistSlice.actions;
+export const {
+  addToWatchlist,
+  deleteFromWatchlist,
+  // watchlistSortMarketCapRank,
+  updateWatchlistPage,
+  watchlistCoinSearch,
+} = watchlistSlice.actions;
 
 export default watchlistSlice.reducer;

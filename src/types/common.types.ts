@@ -149,3 +149,7 @@ export type TrendingCryptoCurrencyResponseType = {
 
 export type TrendingCryptoCurrencyListType =
   TrendingCryptoCurrencyResponseType[];
+
+// Watch List table types
+export type BookmarkType = { bookmark: boolean };
+export type WatchlistCryptoCurrencyType = CryptoCurrencyDataType & BookmarkType;

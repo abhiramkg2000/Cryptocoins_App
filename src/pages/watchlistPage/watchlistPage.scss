@@ -1,0 +1,27 @@
+@import "../../assets/scss/variables";
+
+.watchlist-crypto-container {
+  .watchlist-search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    .watchlist-search-coin {
+      font-size: 1rem;
+      width: 30%;
+      height: 40px;
+      border-radius: 30px;
+      padding: 25px 15px;
+      border: 2px solid $gray300;
+      color: $gray900;
+      @media screen and (max-width: 768px) {
+        width: 40%;
+      }
+      @media screen and (max-width: 500px) {
+        width: 60%;
+      }
+    }
+  }
+  .watchlist-crypto-list-container {
+    margin: 1rem 0;
+  }
+}
