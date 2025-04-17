@@ -49,6 +49,12 @@ const watchlistSlice = createSlice({
     // watchlistSortMarketCapRank: (state, action: PayloadAction<boolean>) => {
     //   state.marketCapRankSort = action.payload;
     // },
+    updateWatchlistOrder(
+      state,
+      action: PayloadAction<WatchlistCryptoCurrencyType[]>
+    ) {
+      state.list = action.payload;
+    },
     updateWatchlistPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
@@ -62,6 +68,7 @@ export const {
   addToWatchlist,
   deleteFromWatchlist,
   // watchlistSortMarketCapRank,
+  updateWatchlistOrder,
   updateWatchlistPage,
   watchlistCoinSearch,
 } = watchlistSlice.actions;

@@ -47,7 +47,7 @@ export default function CryptoListTable({
     dispatch(updatePage(page));
   };
 
-  const handleClick = (data: CryptoCurrencyDataType) => {
+  const handleRowClick = (data: CryptoCurrencyDataType) => {
     navigate(`/details/${data.name?.replace(/ /g, "_").toLowerCase()}`, {
       state: data,
     });
@@ -116,7 +116,10 @@ export default function CryptoListTable({
                 ?.slice(currentPage * 10 - 10, currentPage * 10)
                 .map((coin) => {
                   return (
-                    <TableRow key={coin.id} onClick={() => handleClick(coin)}>
+                    <TableRow
+                      key={coin.id}
+                      onClick={() => handleRowClick(coin)}
+                    >
                       <TableCell>{coin.market_cap_rank}</TableCell>
                       <TableCell>
                         <img

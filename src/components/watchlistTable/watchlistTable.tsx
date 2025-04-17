@@ -1,4 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+  DroppableProvided,
+  DraggableProvided,
+} from "react-beautiful-dnd";
 
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -16,11 +24,12 @@ import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
 import {
   // watchlistSortMarketCapRank,
   updateWatchlistPage,
+  updateWatchlistOrder,
 } from "../../state/slice/watchlistSlice";
 
 import {
   CryptoCurrencyDataType,
-  CryptoCurrencyListType,
+  WatchlistCryptoCurrencyType,
 } from "../../types/common.types";
 
 import "./watchlistTable.scss";
@@ -28,7 +37,7 @@ import "./watchlistTable.scss";
 export default function WatchlistTable({
   coinsData,
 }: {
-  coinsData: CryptoCurrencyListType;
+  coinsData: WatchlistCryptoCurrencyType[];
 }) {
   const currentPage = useAppSelector(
     (state) => state.watchlistPage.currentPage
@@ -40,7 +49,7 @@ export default function WatchlistTable({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  let sortedCoinsData: CryptoCurrencyListType = coinsData;
+  let sortedCoinsData: WatchlistCryptoCurrencyType[] = coinsData;
 
   const handleChangePage = (
     _event: React.ChangeEvent<unknown>,
@@ -49,10 +58,21 @@ export default function WatchlistTable({
     dispatch(updateWatchlistPage(page));
   };
 
-  const handleClick = (data: CryptoCurrencyDataType) => {
+  const handleRowClick = (data: CryptoCurrencyDataType) => {
     navigate(`/details/${data.name?.replace(/ /g, "_").toLowerCase()}`, {
       state: data,
     });
+  };
+
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+
+    // console.log("result", result);
+    const currentData = [...sortedCoinsData];
+    const [movedItem] = currentData.splice(result.source.index, 1);
+    currentData.splice(result.destination.index, 0, movedItem);
+
+    dispatch(updateWatchlistOrder(currentData));
   };
 
   // const handlePriceSort = (sort: boolean) => {
@@ -113,28 +133,59 @@ export default function WatchlistTable({
                 </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {sortedCoinsData
-                ?.slice(currentPage * 10 - 10, currentPage * 10)
-                .map((coin) => {
-                  return (
-                    <TableRow key={coin.id} onClick={() => handleClick(coin)}>
-                      <TableCell>{coin.market_cap_rank}</TableCell>
-                      <TableCell>
-                        <img
-                          src={coin.image!}
-                          height={"50px"}
-                          width={"50px"}
-                          alt="Crypto image"
-                        />
-                      </TableCell>
-                      <TableCell>{coin.name}</TableCell>
-                      <TableCell>{coin.symbol}</TableCell>
-                      <TableCell>${coin.current_price?.toFixed(2)}</TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="coins">
+                {(provided: DroppableProvided) => (
+                  <TableBody
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {sortedCoinsData
+                      ?.slice(currentPage * 10 - 10, currentPage * 10)
+                      .map((coin, index) => {
+                        return (
+                          <Draggable
+                            key={coin.id!}
+                            draggableId={coin.id!}
+                            index={index}
+                          >
+                            {(provided: DraggableProvided, snapshot) => (
+                              <TableRow
+                                onClick={() => handleRowClick(coin)}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  ...provided.draggableProps.style,
+                                  ...(snapshot.isDragging && {
+                                    display: "table",
+                                  }),
+                                }}
+                              >
+                                <TableCell>{coin.market_cap_rank}</TableCell>
+                                <TableCell>
+                                  <img
+                                    src={coin.image!}
+                                    height={"50px"}
+                                    width={"50px"}
+                                    alt="Crypto image"
+                                  />
+                                </TableCell>
+                                <TableCell>{coin.name}</TableCell>
+                                <TableCell>{coin.symbol}</TableCell>
+                                <TableCell>
+                                  ${coin.current_price?.toFixed(2)}
+                                </TableCell>
+                              </TableRow>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                    {provided.placeholder}
+                  </TableBody>
+                )}
+              </Droppable>
+            </DragDropContext>
             <TableFooter>
               <TableRow>
                 <TableCell colSpan={5}>

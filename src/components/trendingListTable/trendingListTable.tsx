@@ -45,7 +45,7 @@ export default function TrendingListTable({
     dispatch(updateTrendingPage(page));
   };
 
-  const handleClick = (coin: TrendingCryptoCurrencyType) => {
+  const handleRowClick = (coin: TrendingCryptoCurrencyType) => {
     let data = {};
     axios
       .get(
@@ -128,7 +128,7 @@ export default function TrendingListTable({
                   return (
                     <TableRow
                       key={coin.item?.id}
-                      onClick={() => handleClick(coin.item!)}
+                      onClick={() => handleRowClick(coin.item!)}
                     >
                       <TableCell>{coin.item?.market_cap_rank}</TableCell>
                       <TableCell>
