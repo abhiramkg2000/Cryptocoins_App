@@ -5,7 +5,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 
-import WatchlistTable from "../../components/watchlistTable/watchlistTable";
+import WatchlistTable from "../../components/tables/watchlistTable/watchlistTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 
 import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";

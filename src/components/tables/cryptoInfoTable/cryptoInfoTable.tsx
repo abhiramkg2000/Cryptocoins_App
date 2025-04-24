@@ -5,8 +5,9 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
-import { formatCoinData } from "../../helper/helper";
-import { CryptoCurrencyDataType } from "../../types/common.types";
+import { formatCoinData } from "../../../helper/helper";
+
+import { CryptoCurrencyDataType } from "../../../types/common.types";
 
 import "./cryptoInfoTable.scss";
 

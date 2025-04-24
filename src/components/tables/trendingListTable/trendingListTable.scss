@@ -1,4 +1,4 @@
-@import "../../assets/scss/variables";
+@import "../../../assets/scss/variables";
 
 .pagination {
   width: 100%;
@@ -16,10 +16,10 @@
   }
 }
 
-.crypto-list-table-container {
+.trending-crypto-list-table-container {
   display: flex;
   justify-content: center;
-  .crypto-list-table {
+  .trending-crypto-list-table {
     border: 2px solid $gray300;
     width: 90%;
     border-radius: 15px;

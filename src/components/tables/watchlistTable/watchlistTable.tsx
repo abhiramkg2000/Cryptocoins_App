@@ -16,21 +16,19 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableFooter from "@mui/material/TableFooter";
 import Pagination from "@mui/material/Pagination";
-// import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
-import NoDataToDisplay from "../noDataToDisplay/noDataToDisplay";
+import NoDataToDisplay from "../../noDataToDisplay/noDataToDisplay";
 
-import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
+import { useAppSelector, useAppDispatch } from "../../../state/hooks/hooks";
 import {
-  // watchlistSortMarketCapRank,
   updateWatchlistPage,
   updateWatchlistOrder,
-} from "../../state/slice/watchlistSlice";
+} from "../../../state/slice/watchlistSlice";
 
 import {
   CryptoCurrencyDataType,
   WatchlistCryptoCurrencyType,
-} from "../../types/common.types";
+} from "../../../types/common.types";
 
 import "./watchlistTable.scss";
 
@@ -42,9 +40,6 @@ export default function WatchlistTable({
   const currentPage = useAppSelector(
     (state) => state.watchlistPage.currentPage
   );
-  // const marketCapRankSort = useAppSelector(
-  //   (state) => state.watchlistPage.marketCapRankSort
-  // );
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -75,32 +70,6 @@ export default function WatchlistTable({
     dispatch(updateWatchlistOrder(currentData));
   };
 
-  // const handlePriceSort = (sort: boolean) => {
-  //   if (sort) {
-  //     sortedCoinsData = sortedCoinsData?.sort(
-  //       (a, b) => b.current_price! - a.current_price!
-  //     );
-  //   } else {
-  //     sortedCoinsData = sortedCoinsData?.sort(
-  //       (a, b) => a.current_price! - b.current_price!
-  //     );
-  //   }
-  // };
-
-  // const handleMarketCapRankSort = (sort: boolean) => {
-  //   if (sort) {
-  //     sortedCoinsData = sortedCoinsData?.sort(
-  //       (a, b) => b.market_cap_rank! - a.market_cap_rank!
-  //     );
-  //   } else {
-  //     sortedCoinsData = sortedCoinsData?.sort(
-  //       (a, b) => a.market_cap_rank! - b.market_cap_rank!
-  //     );
-  //   }
-  // };
-
-  // handleMarketCapRankSort(marketCapRankSort);
-
   return (
     <>
       {sortedCoinsData.length ? (
@@ -108,29 +77,11 @@ export default function WatchlistTable({
           <Table size="small" className="watchlist-table">
             <TableHead>
               <TableRow>
-                <TableCell>
-                  {/* <ArrowDownwardIcon
-                    className={`arrowDown ${marketCapRankSort ? "up" : ""}`}
-                    onClick={() => {
-                      dispatch(watchlistSortMarketCapRank(!marketCapRankSort));
-                      handleMarketCapRankSort(!marketCapRankSort);
-                    }}
-                  /> */}
-                  Market Cap Rank
-                </TableCell>
+                <TableCell>Market Cap Rank</TableCell>
                 <TableCell>Image</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Symbol</TableCell>
-                <TableCell>
-                  {/* <ArrowDownwardIcon
-                    className={`arrowDown ${sortPrice ? "" : "up"}`}
-                    onClick={() => {
-                      setSortPrice((prev) => !prev);
-                      handlePriceSort(!sortPrice);
-                    }}
-                  /> */}
-                  Current Price ($)
-                </TableCell>
+                <TableCell>Current Price ($)</TableCell>
               </TableRow>
             </TableHead>
             <DragDropContext onDragEnd={handleDragEnd}>

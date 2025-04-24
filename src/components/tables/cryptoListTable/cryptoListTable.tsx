@@ -8,20 +8,16 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableFooter from "@mui/material/TableFooter";
 import Pagination from "@mui/material/Pagination";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
-import NoDataToDisplay from "../noDataToDisplay/noDataToDisplay";
+import NoDataToDisplay from "../../noDataToDisplay/noDataToDisplay";
 
-import { useAppSelector, useAppDispatch } from "../../state/hooks/hooks";
-import {
-  sortMarketCapRank,
-  updatePage,
-} from "../../state/slice/cryptoListSlice";
+import { useAppSelector, useAppDispatch } from "../../../state/hooks/hooks";
+import { updatePage } from "../../../state/slice/cryptoListSlice";
 
 import {
   CryptoCurrencyDataType,
   CryptoCurrencyListType,
-} from "../../types/common.types";
+} from "../../../types/common.types";
 
 import "./cryptoListTable.scss";
 
@@ -31,9 +27,6 @@ export default function CryptoListTable({
   coinsData: CryptoCurrencyListType;
 }) {
   const currentPage = useAppSelector((state) => state.listPage.currentPage);
-  const marketCapRankSort = useAppSelector(
-    (state) => state.listPage.marketCapRankSort
-  );
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -53,32 +46,6 @@ export default function CryptoListTable({
     });
   };
 
-  // const handlePriceSort = (sort: boolean) => {
-  //   if (sort) {
-  //     sortedCoinsData = sortedCoinsData?.sort(
-  //       (a, b) => b.current_price! - a.current_price!
-  //     );
-  //   } else {
-  //     sortedCoinsData = sortedCoinsData?.sort(
-  //       (a, b) => a.current_price! - b.current_price!
-  //     );
-  //   }
-  // };
-
-  const handleMarketCapRankSort = (sort: boolean) => {
-    if (sort) {
-      sortedCoinsData = sortedCoinsData?.sort(
-        (a, b) => b.market_cap_rank! - a.market_cap_rank!
-      );
-    } else {
-      sortedCoinsData = sortedCoinsData?.sort(
-        (a, b) => a.market_cap_rank! - b.market_cap_rank!
-      );
-    }
-  };
-
-  handleMarketCapRankSort(marketCapRankSort);
-
   return (
     <>
       {sortedCoinsData.length ? (
@@ -86,29 +53,11 @@ export default function CryptoListTable({
           <Table size="small" className="crypto-list-table">
             <TableHead>
               <TableRow>
-                <TableCell>
-                  <ArrowDownwardIcon
-                    className={`arrowDown ${marketCapRankSort ? "up" : ""}`}
-                    onClick={() => {
-                      dispatch(sortMarketCapRank(!marketCapRankSort));
-                      handleMarketCapRankSort(!marketCapRankSort);
-                    }}
-                  />
-                  Market Cap Rank
-                </TableCell>
+                <TableCell>Market Cap Rank</TableCell>
                 <TableCell>Image</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Symbol</TableCell>
-                <TableCell>
-                  {/* <ArrowDownwardIcon
-                    className={`arrowDown ${sortPrice ? "" : "up"}`}
-                    onClick={() => {
-                      setSortPrice((prev) => !prev);
-                      handlePriceSort(!sortPrice);
-                    }}
-                  /> */}
-                  Current Price ($)
-                </TableCell>
+                <TableCell>Current Price ($)</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

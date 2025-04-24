@@ -6,7 +6,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 
-import CryptoListTable from "../../components/cryptoListTable/cryptoListTable";
+import SortModal from "../../components/sortModal/sortModal";
+import CryptoListTable from "../../components/tables/cryptoListTable/cryptoListTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 import Loader from "../../components/loader/loader";
 
@@ -15,6 +16,8 @@ import {
   coinSearch,
   updateCryptoList,
   updatePage,
+  updateSortCriteria,
+  updateSortOrder,
 } from "../../state/slice/cryptoListSlice";
 
 import "./cryptoListPage.scss";
@@ -45,6 +48,8 @@ export default function CryptoListPage() {
       })
       .finally(() => {
         setLoading(false);
+        dispatch(updateSortCriteria("market_cap_rank"));
+        dispatch(updateSortOrder(false));
       });
   }, []);
 
@@ -71,7 +76,8 @@ export default function CryptoListPage() {
         <>
           {coins?.length && !error ? (
             <>
-              <div className="search-container">
+              <div className="search-and-sort-container">
+                <SortModal />
                 <InputBase
                   autoFocus
                   type="text"

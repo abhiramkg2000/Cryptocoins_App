@@ -1,6 +1,5 @@
 import { useNavigate, Outlet } from "react-router-dom";
 
-import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
@@ -28,25 +27,28 @@ export default function TopNavigation() {
 
   return (
     <>
-      <Box className="top-navigation">
+      <div className="top-navigation">
         <Tabs value={value} onChange={handleChange} centered>
           <Tab
             label="All"
             value={"all"}
             className={`tab ${value === "all" ? "active" : ""}`}
+            disableRipple={true}
           />
           <Tab
             label="Trending"
             value={"trending"}
             className={`tab ${value === "trending" ? "active" : ""}`}
+            disableRipple={true}
           />
           <Tab
             label="Watchlist"
             value={"watchlist"}
             className={`tab ${value === "watchlist" ? "active" : ""}`}
+            disableRipple={true}
           />
         </Tabs>
-      </Box>
+      </div>
       <Outlet />
     </>
   );

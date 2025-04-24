@@ -11,7 +11,6 @@ interface WatchlistSliceType {
   list: WatchlistCryptoCurrencyType[];
   currentPage: number;
   searchCoin: string;
-  // marketCapRankSort: boolean;
 }
 
 // Define the initial state using that type
@@ -19,7 +18,6 @@ const initialState: WatchlistSliceType = {
   list: [],
   currentPage: 1,
   searchCoin: "",
-  // marketCapRankSort: false,
 };
 
 const watchlistSlice = createSlice({
@@ -46,9 +44,6 @@ const watchlistSlice = createSlice({
     ) => {
       state.list = state.list.filter((coin) => coin.id !== action.payload.id);
     },
-    // watchlistSortMarketCapRank: (state, action: PayloadAction<boolean>) => {
-    //   state.marketCapRankSort = action.payload;
-    // },
     updateWatchlistOrder(
       state,
       action: PayloadAction<WatchlistCryptoCurrencyType[]>
@@ -67,7 +62,6 @@ const watchlistSlice = createSlice({
 export const {
   addToWatchlist,
   deleteFromWatchlist,
-  // watchlistSortMarketCapRank,
   updateWatchlistOrder,
   updateWatchlistPage,
   watchlistCoinSearch,

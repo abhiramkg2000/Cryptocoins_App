@@ -1,0 +1,50 @@
+@import "../../assets/scss/variables";
+
+.sort-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .sort-button {
+    font-size: 1rem;
+    color: $gray900;
+    padding: 8px 16px;
+    margin: 0 10px;
+    border: 2px solid $gray300;
+    border-radius: 25px;
+    .sort-icon {
+      margin: 0 10px;
+    }
+  }
+}
+
+.sort-modal {
+  .sort-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $white;
+    border-radius: 20px;
+    padding: 8px;
+    .sort-modal-button {
+      text-transform: none;
+      color: $gray900;
+      border-radius: 20px;
+      border: 2px solid $gray300;
+      margin: 10px;
+      &:hover {
+        background-color: $gray100;
+      }
+    }
+    .active {
+      background-color: $gray100;
+    }
+    .arrowDown {
+      cursor: pointer;
+      transition: 0.2s linear;
+    }
+    .up {
+      transform: rotateZ(180deg);
+    }
+  }
+}

@@ -6,7 +6,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 
-import TrendingListTable from "../../components/trendingListTable/trendingListTable";
+import TrendingListTable from "../../components/tables/trendingListTable/trendingListTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 import Loader from "../../components/loader/loader";
 

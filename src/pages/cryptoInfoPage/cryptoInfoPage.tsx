@@ -7,7 +7,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 import Chart from "../../components/chart/chart";
-import CryptoInfoTable from "../../components/cryptoInfoTable/cryptoInfoTable";
+import CryptoInfoTable from "../../components/tables/cryptoInfoTable/cryptoInfoTable";
 import NoDataToDisplay from "../../components/noDataToDisplay/noDataToDisplay";
 import Loader from "../../components/loader/loader";
 import SnackBar from "../../components/snackbar/snackbar";
@@ -84,9 +84,13 @@ export default function CryptoInfoPage() {
   return (
     <>
       <nav className="navigation">
-        <button className="back-button" onClick={() => navigate(-1)}>
+        <Button
+          className="back-button"
+          disableRipple={true}
+          onClick={() => navigate(-1)}
+        >
           Back
-        </button>
+        </Button>
       </nav>
       <div className="crypto-info-container">
         {!loading ? (
