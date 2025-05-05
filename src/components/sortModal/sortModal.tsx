@@ -99,7 +99,15 @@ export default function SortModal() {
               }}
             >
               <ArrowDownwardIcon
-                className={`arrowDown ${sortOrder ? "up" : ""}`}
+                className={`arrowDown ${
+                  sortCriteria === "name"
+                    ? sortOrder
+                      ? ""
+                      : "up"
+                    : sortOrder
+                    ? "up"
+                    : ""
+                }`}
               />
             </Button>
           </div>
